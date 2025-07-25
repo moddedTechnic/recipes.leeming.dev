@@ -1,0 +1,28 @@
+---
+const year = new Date().getFullYear()
+---
+
+<footer>
+    <p>Jonathan Leeming © <span id="year">{year}</span></p>
+</footer>
+
+<script>
+    const yearTag = document.getElementById('year')
+    const year = new Date().getFullYear().toString()
+    if (yearTag)
+        yearTag.innerText = year
+</script>
+
+<style>
+    footer {
+        margin-top: 6rem;
+        padding: 1rem;
+        background: var(--background-light);
+        color: var(--text);
+        text-align: center;
+    }
+
+    footer p {
+        margin: 0;
+    }
+</style>

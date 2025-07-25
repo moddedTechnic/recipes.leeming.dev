@@ -1,0 +1,78 @@
+---
+import Layout from './Layout.astro'
+
+import '../style/article.css'
+
+export type Props = {
+    frontmatter: {
+        title: string
+        link?: string
+    }
+}
+
+const {frontmatter: {title, links}} = Astro.props
+---
+
+<Layout title={title}>
+    <assets slot="assets">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+              integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+              crossorigin="anonymous">
+
+        <link
+                rel="stylesheet"
+                type="text/css"
+                href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"
+                crossorigin="anonymous"
+        />
+
+        <script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+                integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+                crossorigin="anonymous">
+        </script>
+
+        <script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+                integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+                crossorigin="anonymous"
+                onload="renderMathInElement(document.body)">
+        </script>
+    </assets>
+
+    <main class="flow">
+        <h1>{title}</h1>
+
+        {links && (
+                <p>
+                    {Object.entries(links).map(([typ, url]) => (
+                        <a href={url} target="_blank" rel="noopener noreferrer">
+                            {{
+                                github: (<><i class="ph ph-github-logo"></i> GitHub</>),
+                                x: (<><i class="ph ph-x-logo"></i> X</>),
+                                youtube: (<><i class="ph ph-youtube-logo"></i> YouTube</>),
+                                linkedin: (<><i class="ph ph-linkedin-logo"></i> LinkedIn</>),
+                                discord: (<><i class="ph ph-discord-logo"></i> Discord</>),
+                                reddit: (<><i class="ph ph-reddit-logo"></i> Reddit</>),
+                                facebook: (<><i class="ph ph-facebook-logo"></i> Facebook</>),
+                            }[typ] ?? typ.charAt(0).toUpperCase() + typ.slice(1)}
+                        </a>
+                    ))}
+                </p>
+        )}
+
+        <slot/>
+    </main>
+</Layout>
+
+<style>
+    main {
+        margin: auto;
+        padding: 1rem;
+        line-height: 1.6;
+    }
+</style>
+
+<style is:global>
+    .lede {
+        font-style: italic;
+    }
+</style>

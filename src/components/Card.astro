@@ -1,0 +1,118 @@
+---
+export interface Props {
+    title: string
+    date: string
+    tags: string[]
+    slug: string
+    baseURL: string
+}
+
+const { title, date, tags, slug, baseURL } = Astro.props
+
+function formatDate(date: Date | string) {
+    date = new Date(date)
+    const weekday = date.toLocaleDateString('en-GB', {weekday: 'long'})
+
+    const day = date.getDate()
+    let suffix: string
+    if (day === 1 || day === 21 || day === 31) {
+        suffix = 'st'
+    } else if (day === 2 || day === 22) {
+        suffix = 'nd'
+    } else if (day === 3 || day === 23) {
+        suffix = 'rd'
+    } else {
+        suffix = 'th'
+    }
+
+    const month = date.toLocaleDateString('en-GB', {month: 'short'})
+    const year = date.getFullYear()
+
+    return `${weekday}, ${day}${suffix} ${month} ${year}`
+}
+---
+
+<li class="card">
+    <a href={baseURL + '/' + slug}>
+        <h2>{title}</h2>
+        <time datetime={date}>{formatDate(date)}</time>
+    </a>
+    <ul class="tags">
+        {
+            tags.map((tag: string) => {
+                return (
+                        <li>
+                            <a href={`${baseURL}/tags/${tag}`}>
+                                {tag}
+                            </a>
+                        </li>
+                )
+            })
+        }
+    </ul>
+</li>
+
+
+<style>
+    .card {
+        background: var(--background-light);
+        border-left: 0.3rem solid var(--accent);
+        box-shadow: -4px 0px 0px #4C4B5C inset, 0px 4px 0px #4C4B5C inset, 0px -4px 0px #4C4B5C inset;
+        margin: 1rem 0;
+        padding: 1rem;
+        transition: border-left-width 150ms ease-in-out, background 150ms ease-in-out;
+    }
+
+    .card:is(:hover, :focus, :focus-within) {
+        border-left-width: 0.5rem;
+        background: transparent;
+    }
+
+    .card:is(:hover, :focus, :focus-within) * {
+        outline: none;
+    }
+
+    h2 {
+        margin: 0;
+    }
+
+    a {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    time {
+        color: #ddd;
+        font-size: 0.8em;
+    }
+
+    .tags {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        margin-top: 0.5em;
+    }
+
+    .tags li {
+        background: var(--accent);
+        color: var(--text);
+        font-size: 0.7em;
+        margin-right: 0.5em;
+        padding: 0;
+        text-transform: uppercase;
+        font-family: Segoe UI, sans-serif;
+    }
+
+    .tags li:hover {
+        background: var(--accent-dark);
+    }
+
+    .tags li a {
+        display: inline-block;
+        padding: 0.1em 0.5em;
+    }
+
+    .tags li:last-child {
+        margin-right: 0;
+    }
+</style>

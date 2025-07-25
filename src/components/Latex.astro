@@ -1,0 +1,15 @@
+---
+import * as katex from 'katex'
+
+export type Props = {
+  formula: string
+}
+
+const {formula} = Astro.props
+const html = katex.renderToString(formula, {
+  throwOnError: false,
+  displayMode: true,
+})
+---
+
+<span set:html={html} />

@@ -1,0 +1,56 @@
+---
+import {getCollection} from 'astro:content'
+
+export type Ingredient = string | {name: string; plural?: boolean; quantity?: string; notes?: string}
+
+export interface Props {
+    ingredient: Ingredient
+}
+
+const { ingredient } = Astro.props
+
+let slug, name, quantity, notes;
+let link = false;
+if (typeof ingredient === 'string') {
+    const parts = ingredient.split(' ')
+    slug = parts[0]
+    quantity = parts[1]
+} else {
+    slug = ingredient.name;
+    quantity = ingredient.quantity;
+    notes = ingredient.notes;
+}
+
+const recipes = await getCollection('recipes')
+const recipe = recipes.filter(p => p.slug === slug)[0]
+if (recipe !== undefined) {
+    name = recipe.data.title
+    link = true
+} else {
+    const ingredientDatas = await getCollection('ingredients')
+    const ingredientData = ingredientDatas.filter(p => p.slug === slug)[0]
+    if (ingredientData !== undefined) {
+        name = ingredientData.data.name
+        if (ingredient.plural || (quantity && quantity != '1')) {
+            name = ingredientData.data.plural ?? `${name}s`
+        }
+    }
+}
+
+if (name === undefined) {
+    name = slug;
+}
+---
+
+<span>
+    {quantity}
+    { link ?
+        <a href={`/r/${slug}`}> {name} </a> :
+        name
+    }
+    {notes && <em>({notes})</em>}
+</span>
+
+
+<style>
+</style>

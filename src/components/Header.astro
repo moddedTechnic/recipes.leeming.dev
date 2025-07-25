@@ -1,0 +1,117 @@
+<header>
+    <a href="/" class="brand">
+        <img src="/favicon.webp" alt="Jonathan Leeming" width="50" height="50">
+        <h1>Recipes</h1>
+    </a>
+
+    <label for="menu-toggle">☰</label>
+    <input type="checkbox" id="menu-toggle">
+
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+</header>
+
+<style>
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: var(--accent-dark);
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+    }
+
+    .brand img {
+        border-radius: 100%;
+    }
+
+    .brand:hover img {
+        animation: shake 375ms ease;
+    }
+
+    nav a {
+        text-decoration: none;
+        margin-left: 1rem;
+    }
+
+    nav a:hover {
+        text-decoration: underline;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    #menu-toggle, [for="menu-toggle"] {
+        display: none;
+    }
+
+
+    @media (max-width: 600px) {
+        [for="menu-toggle"] {
+            display: block;
+        }
+
+        header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 0.5rem 0;
+            padding-bottom: 0;
+        }
+
+        header h1 {
+            margin-bottom: 1rem;
+        }
+
+        header label {
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        nav {
+            display: none;
+
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        #menu-toggle:checked + nav {
+            display: flex;
+        }
+
+        nav > * {
+            display: inline-block;
+            text-align: center;
+            border-top: 1px solid var(--accent-light);
+            padding: 1rem;
+        }
+
+        nav a:is(:hover, :focus, :active) {
+            background-color: #0007;
+            text-decoration: none;
+        }
+    }
+
+    @keyframes shake {
+        0% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(-12.5deg);
+        }
+        75% {
+            transform: rotate(12.5deg);
+        }
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+</style>

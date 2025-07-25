@@ -1,0 +1,49 @@
+---
+import {getCollection} from 'astro:content'
+
+import Layout from '../../layouts/Layout.astro'
+import Card from '../../components/Card.astro'
+
+const posts = await getCollection('recipes')
+const sortedPosts = posts
+    .sort((a, b) => {
+        const dateOrder = +new Date(b.data.createdDate) - +new Date(a.data.createdDate)
+        if (dateOrder != 0) {
+            return dateOrder;
+        }
+        return a.title > b.title ? 1 : -1;
+    })
+---
+
+<Layout title="Recipes">
+    <main>
+        <h1>Recipes</h1>
+        <ul>
+            {
+                sortedPosts.map((p) => {
+                    return (
+                            <Card baseURL="/r" slug={p.slug} title={p.data.name} date={p.data.createdDate}
+                                  tags={p.data.tags}/>
+                    )
+                })
+            }
+        </ul>
+    </main>
+</Layout>
+
+<style>
+    main {
+        margin: auto;
+        padding: 1rem;
+        width: 800px;
+        max-width: calc(100% - 2rem);
+        color: var(--text);
+        font-size: 1.5rem;
+        line-height: 1.6;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+</style>

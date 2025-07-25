@@ -1,0 +1,52 @@
+main ul,
+main ol {
+    padding-inline-start: 1em;
+}
+
+main blockquote {
+    padding-inline-start: 1em;
+    border-inline-start: 0.3em solid;
+    font-style: italic;
+    font-size: var(--size-step-1);
+    max-width: 50ch;
+}
+
+main {
+    font-size: var(--size-step-0);
+    line-height: 1.7;
+    max-width: 65ch;
+}
+
+main :is(h1, h2, h3) {
+    line-height: 1.1;
+    text-wrap: balance;
+}
+
+main h1 {
+    font-size: var(--size-step-4);
+    max-width: 20ch;
+}
+
+main h2 {
+    font-size: var(--size-step-3);
+}
+
+main h3 {
+    font-size: var(--size-step-2);
+}
+
+main :is(h2, h3) {
+    max-width: 28ch;
+}
+
+main.flow > * + * {
+    margin-block-start: var(--flow-space, 1em);
+}
+
+main :is(h1, h2, h3, blockquote) {
+    --flow-space: 1.5em;
+}
+
+main :is(h1, h2, h3) + * {
+    --flow-space: 0.5em;
+}
