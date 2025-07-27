@@ -5,18 +5,18 @@ import Ingredient from '../../components/Ingredient.astro'
 import ArticleLayout from '../../layouts/ArticleLayout.astro'
 
 export async function getStaticPaths() {
-    const posts = await getCollection('recipes')
-    return posts.map((post) => ({
-        params: {slug: post.slug},
+    const recipes = await getCollection('recipes')
+    return recipes.map((recipe) => ({
+        params: {slug: recipe.slug},
         props: {
-            post,
+            recipe,
         },
     }))
 }
 
-const {post} = Astro.props
-const {name, ingredients} = post.data
-const {Content} = await post.render()
+const {recipe} = Astro.props
+const {name, ingredients} = recipe.data
+const {Content} = await recipe.render()
 ---
 
 <ArticleLayout frontmatter={{title: name}}>
