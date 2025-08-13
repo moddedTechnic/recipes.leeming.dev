@@ -31,7 +31,7 @@ if (recipe !== undefined) {
     const ingredientData = ingredientDatas.filter(p => p.slug === slug)[0]
     if (ingredientData !== undefined) {
         name = ingredientData.data.name
-        if (ingredient.plural || (quantity && quantity != '1')) {
+	if (ingredient.plural || (quantity && +quantity > 1)) {
             name = ingredientData.data.plural ?? `${name}s`
         }
     }
@@ -39,6 +39,36 @@ if (recipe !== undefined) {
 
 if (name === undefined) {
     name = slug;
+}
+
+function feq(a, b) {
+    const EPSILON = 0.001
+    return (a - EPSILON <= b) && (b <= a + EPSILON)
+}
+
+function float(x) {
+    x = '' + x
+    const match = x.match(/^[+-]?(\d+(\.\d*)?|\.\d+)/)
+    const f = match ? parseFloat(match[0]) : NaN
+    const rest = x.slice(match[0].length)
+    return { f, rest }
+}
+
+if (quantity) {
+    const { f, rest } = float(quantity)
+    const intPart = Math.floor(f)
+    const floatPart = f - intPart
+    const whole = intPart == 0 ? '' : ('' + intPart)
+    if (feq(floatPart, 0.25)) {
+        quantity = `${whole} 1/4`
+    } else if (feq(floatPart, 0.5)) {
+        quantity = `${whole} 1/2`
+    } else if (feq(floatPart, 0.75)) {
+        quantity = `${whole} 3/4`
+    } else {
+        quantity = `${whole}`
+    }
+    quantity += rest
 }
 ---
 
