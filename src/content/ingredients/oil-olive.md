@@ -1,6 +1,6 @@
 ---
 name: Olive Oil
 plural: Olive Oil
-tags: []
+tags: ["oil"]
 createdDate: "2025-08-13"
 ---

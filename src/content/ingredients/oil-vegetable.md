@@ -1,6 +1,6 @@
 ---
 name: Vegetable Oil
 plural: Vegetable Oil
-tags: []
+tags: ["oil"]
 createdDate: "2025-07-25"
 ---

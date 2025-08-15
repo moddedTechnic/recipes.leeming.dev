@@ -13,3 +13,8 @@ This means they might change over time as I tweak the recipe.
 I know that not everyone finds "new and improved" recipes to be an improvement,
 so if you find a recipe you like, I encourage you to make a copy in your own recipe book.
 
+Most of the recipes on this site have [tags](/t).
+These function like the categories you might find in a traditional recipe book
+(e.g. [Soups](/t/soup) or [Main Courses](/t/main-course)).
+This is also where you can find dietary information.
+

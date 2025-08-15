@@ -1,11 +1,11 @@
 ---
 name: Leek and Potato Soup
 tags:
-  - vegitarian
+  - vegetarian
   - soup
 createdDate: "2025-07-25"
 ingredients:
-  - oil-vegetable 1tbsp
+  - "#oil 1tbsp"
   - name: onion-yellow
     quantity: 1
     notes: sliced

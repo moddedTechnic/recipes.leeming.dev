@@ -21,18 +21,28 @@ if (typeof ingredient === 'string') {
     notes = ingredient.notes;
 }
 
-const recipes = await getCollection('recipes')
-const recipe = recipes.filter(p => p.slug === slug)[0]
-if (recipe !== undefined) {
-    name = recipe.data.title
-    link = true
+if (slug.startsWith('#')) {
+    slug = slug.slice(1)
+    const tags = await getCollection('tags')
+    const tag = tags.filter(t => t.slug === slug)[0]
+    if (tag !== undefined) {
+        name = tag.data.name
+	link = `/t/${slug}`
+    }
 } else {
-    const ingredientDatas = await getCollection('ingredients')
-    const ingredientData = ingredientDatas.filter(p => p.slug === slug)[0]
-    if (ingredientData !== undefined) {
-        name = ingredientData.data.name
-	if (ingredient.plural || (quantity && +quantity > 1)) {
-            name = ingredientData.data.plural ?? `${name}s`
+    const recipes = await getCollection('recipes')
+    const recipe = recipes.filter(p => p.slug === slug)[0]
+    if (recipe !== undefined) {
+        name = recipe.data.title
+	link = `/r/${slug}`
+    } else {
+        const ingredientDatas = await getCollection('ingredients')
+        const ingredientData = ingredientDatas.filter(p => p.slug === slug)[0]
+        if (ingredientData !== undefined) {
+            name = ingredientData.data.name
+    	if (ingredient.plural || (quantity && +quantity > 1)) {
+                name = ingredientData.data.plural ?? `${name}s`
+            }
         }
     }
 }
@@ -75,7 +85,7 @@ if (quantity) {
 <span>
     {quantity}
     { link ?
-        <a href={`/r/${slug}`}> {name} </a> :
+        <a href={link}> {name} </a> :
         name
     }
     {notes && <em>({notes})</em>}

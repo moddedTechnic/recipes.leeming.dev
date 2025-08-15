@@ -1,0 +1,87 @@
+---
+import {getCollection} from 'astro:content'
+
+import Ingredient from '../../components/Ingredient.astro'
+import ArticleLayout from '../../layouts/ArticleLayout.astro'
+
+export async function getStaticPaths() {
+    const tags = await getCollection('tags')
+    return tags.map((tag) => ({
+        params: {slug: tag.slug},
+        props: {
+            tag,
+        },
+    }))
+}
+
+const {tag} = Astro.props
+const {name} = tag.data
+const {Content} = await tag.render()
+
+const allRecipes = []
+const ingredients = []
+
+async function findTagContents(slug: string) {
+    for (const recipe of await getCollection('recipes')) {
+        if (recipe.data.tags.includes(slug)) {
+        	allRecipes.push({ name: recipe.data.name, link: `/r/${recipe.slug}` })
+        }
+    }
+    for (const ingredient of await getCollection('ingredients')) {
+        if (
+	    ingredient.data.tags.includes(slug) &&
+	    !ingredients.includes(ingredient.data.name)
+	) {
+            ingredients.push(ingredient.data.name)
+        }
+    }
+    for (const subtag of await getCollection('tags')) {
+        if (subtag.data.tags.includes(slug)) {
+	    await findTagContents(subtag.slug)
+        }
+    }
+}
+
+await findTagContents(tag.slug)
+
+const recipes = []
+for (const recipe of allRecipes) {
+if (!recipes.map(i => i.name).includes(recipe.name))
+    	recipes.push(recipe)
+}
+recipes.sort((a, b) => a.name.localeCompare(b.name))
+ingredients.sort()
+---
+
+<ArticleLayout frontmatter={{title: name}}>
+    {recipes.length > 0 && (
+        <section>
+	    <h2>Recipes</h2>
+            <ul>
+	        {recipes.map(({name, link}) => (
+	            <li>
+	    	        {link ?
+	       	            <a href={link}>{name}</a> :
+	                    <span>{name}</span>
+	    	        }
+	            </li>
+                ))}
+            </ul>
+        </section>
+    )}
+
+    {ingredients.length > 0 && (
+        <section>
+	    <h2>Ingredients</h2>
+            <ul>
+	        {ingredients.map(name => (
+	            <li>
+	                <span>{name}</span>
+	            </li>
+                ))}
+            </ul>
+        </section>
+    )}
+
+    <Content/>
+</ArticleLayout>

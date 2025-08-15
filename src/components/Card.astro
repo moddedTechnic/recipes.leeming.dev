@@ -35,14 +35,14 @@ function formatDate(date: Date | string) {
 <li class="card">
     <a href={baseURL + '/' + slug}>
         <h2>{title}</h2>
-        <time datetime={date}>{formatDate(date)}</time>
+	{date && <time datetime={date}>{formatDate(date)}</time>}
     </a>
     <ul class="tags">
         {
             tags.map((tag: string) => {
                 return (
                         <li>
-                            <a href={`${baseURL}/tags/${tag}`}>
+                            <a href={`/t/${tag}`}>
                                 {tag}
                             </a>
                         </li>
@@ -103,7 +103,7 @@ function formatDate(date: Date | string) {
         font-family: Segoe UI, sans-serif;
     }
 
-    .tags li:hover {
+    .tags li:is(:hover, :focus, :focus-within) {
         background: var(--accent-dark);
     }
 

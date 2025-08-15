@@ -1,5 +1,5 @@
 ---
 name: Celery
-tags: []
+tags: ["vegetable"]
 createdDate: "2025-08-13"
 ---

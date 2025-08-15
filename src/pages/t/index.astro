@@ -1,0 +1,42 @@
+---
+import {getCollection} from 'astro:content'
+
+import Layout from '../../layouts/Layout.astro'
+import Card from '../../components/Card.astro'
+
+const posts = await getCollection('tags')
+posts.sort((a, b) => a.data.name.localeCompare(b.data.name))
+---
+
+<Layout title="Tags">
+    <main>
+        <h1>Tags</h1>
+        <ul>
+            {
+                posts.map((p) => {
+                    return (
+                            <Card baseURL="/t" slug={p.slug} title={p.data.name}
+                                  tags={p.data.tags}/>
+                    )
+                })
+            }
+        </ul>
+    </main>
+</Layout>
+
+<style>
+    main {
+        margin: auto;
+        padding: 1rem;
+        width: 800px;
+        max-width: calc(100% - 2rem);
+        color: var(--text);
+        font-size: 1.5rem;
+        line-height: 1.6;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+</style>

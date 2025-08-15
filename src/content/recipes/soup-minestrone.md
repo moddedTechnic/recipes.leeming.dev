@@ -4,8 +4,8 @@ tags:
   - soup
 createdDate: "2025-08-13"
 ingredients:
-  - oil-olive 1tbsp
-  - name: onion-yellow
+  - "#oil 1tbsp"
+  - name: "#onion"
     quantity: 1
     notes: peeled, finely chopped
   - name: garlic
