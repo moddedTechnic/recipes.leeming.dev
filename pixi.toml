@@ -6,6 +6,7 @@ platforms = ["linux-64"]
 version = "0.1.0"
 
 [tasks]
+dev = "yarn dev"
 
 [dependencies]
 nodejs = ">=24.4.1,<24.5"
