@@ -1,6 +1,6 @@
 ---
 name: Vegetable
-tags: ["vegetarian", "halal"]
+tags: ["vegan", "halal"]
 createdDate: "2025-08-15"
 ---
 

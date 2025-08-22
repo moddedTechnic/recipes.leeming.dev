@@ -1,5 +1,5 @@
 ---
 name: Salt
-tags: []
+tags: ["halal", "vegan"]
 createdDate: "2025-07-25"
 ---

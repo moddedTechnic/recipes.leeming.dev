@@ -2,6 +2,6 @@
 name: Tomato Purée
 plural: Tomato Purée
 tags:
-  - vegitarian
+  - vegetarian
 createdDate: "2025-08-13"
 ---

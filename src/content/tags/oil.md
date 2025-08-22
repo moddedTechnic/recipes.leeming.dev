@@ -1,6 +1,6 @@
 ---
 name: Oil
 plural: Oil
-tags: ["vegetarian"]
+tags: ["vegan"]
 createdDate: "2025-08-15"
 ---
