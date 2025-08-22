@@ -1,30 +1,36 @@
 import {getCollection} from 'astro:content'
 
+import {findSupertags} from '../../utils/collections'
+
 export async function getStaticPaths() {
-  const recipes = await getCollection('recipes')
-  return recipes.map((recipe) => ({
-    params: {slug: recipe.slug},
-    props: {
-      recipe,
-    },
-  }))
+    const tags = await getCollection('tags')
+    return tags.map((tag) => ({
+        params: {slug: tag.slug},
+        props: {
+            tag,
+        },
+    }))
 }
 
 export async function GET({params, props, request}) {
-  const {recipe} = props
-  const {name, ingredients} = recipe.data
-  return new Response(
-    JSON.stringify({
-      name,
-      ingredients: ingredients.map(i => {
-        if (typeof i === "string") {
-          const parts = i.split(' ')
-          return { name: parts[0], quantity: parts[1] }
+    const {tag} = props
+    const {name} = tag.data
+    
+    const tags = [];
+    for (const t of tag.data.tags) {
+        if (!tags.includes(t))
+            tags.push(t)
+        for (const st of await findSupertags(t)) {
+            if (!tags.includes(st))
+                tags.push(st)
         }
-        return i
-      }),
-      content: recipe.body
-    }),
-    { headers: { "Content-Type": "application/json" } }
-  )
+    }
+
+    return new Response(
+        JSON.stringify({
+            name,
+            tags,
+        }),
+        { headers: { "Content-Type": "application/json" } }
+    )
 }

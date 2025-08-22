@@ -3,15 +3,16 @@ import {getCollection} from 'astro:content'
 
 import Layout from '../../layouts/Layout.astro'
 import Card from '../../components/Card.astro'
+import {getRecipes} from '../../utils/collections.ts'
 
-const posts = await getCollection('recipes')
+const posts = await getRecipes()
 const sortedPosts = posts
     .sort((a, b) => {
-        const dateOrder = +new Date(b.data.createdDate) - +new Date(a.data.createdDate)
+        const dateOrder = +new Date(b.createdDate) - +new Date(a.createdDate)
         if (dateOrder != 0) {
             return dateOrder;
         }
-        return a.title > b.title ? 1 : -1;
+        return a.name > b.name ? 1 : -1;
     })
 ---
 
@@ -20,10 +21,12 @@ const sortedPosts = posts
         <h1>Recipes</h1>
         <ul>
             {
-                sortedPosts.map((p) => {
+                sortedPosts.map(async (p) => {
+                    const tags = Array.from(await p.getTags())
+                    tags.sort()
                     return (
-                            <Card baseURL="/r" slug={p.slug} title={p.data.name} date={p.data.createdDate}
-                                  tags={p.data.tags}/>
+                        <Card baseURL="/r" slug={p.slug} title={p.name} date={p.createdDate}
+                              tags={tags}/>
                     )
                 })
             }

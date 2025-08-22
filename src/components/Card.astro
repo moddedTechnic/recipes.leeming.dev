@@ -1,4 +1,6 @@
 ---
+import {getTag} from '../utils/collections'
+
 export interface Props {
     title: string
     date: string
@@ -39,13 +41,15 @@ function formatDate(date: Date | string) {
     </a>
     <ul class="tags">
         {
-            tags.map((tag: string) => {
+            tags.map(async (slug: string) => {
+                const tag = await getTag(slug)
+                const name = tag?.name ?? slug
                 return (
-                        <li>
-                            <a href={`/t/${tag}`}>
-                                {tag}
-                            </a>
-                        </li>
+                    <li>
+                        <a href={`/t/${slug}`}>
+                            {name}
+                        </a>
+                    </li>
                 )
             })
         }
