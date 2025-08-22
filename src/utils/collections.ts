@@ -37,12 +37,7 @@ export async function getRecipes() {
         recipes.push({
             ...r.data,
             slug: r.slug,
-	    async getTags() {
-                const print = (...x) => {
-                    if (this.slug === 'soup-sweetcorn')
-                        console.log(...x)
-                }
-
+	    async getTags() { 
                 const tags = new Set([]);
                 for (const tag of this.tags) {
                     tags.add(tag)
@@ -64,15 +59,12 @@ export async function getRecipes() {
                         const ingr = await getIngredient(slug)
                         if (ingredientTags === undefined) {
                             ingredientTags = await ingr.getTags()
-                            print('   ', this.slug, ingredientTags)
                         } else {
                             const iTags = await ingr.getTags()
-                            print('   ', this.slug, slug, iTags)
                             ingredientTags = ingredientTags.intersection(iTags)
                         }
                     }
                 }
-                print('RES', this.slug, ingredientTags)
 
                 return tags.union(ingredientTags);
 	    }
