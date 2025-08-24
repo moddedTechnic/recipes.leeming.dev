@@ -7,13 +7,7 @@ import {getRecipes} from '../../utils/collections.ts'
 
 const posts = await getRecipes()
 const sortedPosts = posts
-    .sort((a, b) => {
-        const dateOrder = +new Date(b.createdDate) - +new Date(a.createdDate)
-        if (dateOrder != 0) {
-            return dateOrder;
-        }
-        return a.name > b.name ? 1 : -1;
-    })
+    .sort((a, b) => a.name.localeCompare(b.name))
 ---
 
 <Layout title="Recipes">
@@ -25,8 +19,7 @@ const sortedPosts = posts
                     const tags = Array.from(await p.getTags())
                     tags.sort()
                     return (
-                        <Card baseURL="/r" slug={p.slug} title={p.name} date={p.createdDate}
-                              tags={tags}/>
+		    	<Card baseURL="/r" slug={p.slug} title={p.name} date={p.createdAt} tags={tags}/>
                     )
                 })
             }

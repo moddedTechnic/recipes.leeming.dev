@@ -2,7 +2,6 @@
 name: Minestrone
 tags:
   - soup
-createdDate: "2025-08-13"
 ingredients:
   - "#oil 1tbsp"
   - name: "#onion"

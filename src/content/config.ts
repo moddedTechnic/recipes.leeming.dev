@@ -5,8 +5,6 @@ const recipesCollection = defineCollection({
     schema: z.object({
         name: z.string(),
         tags: z.array(z.string()),
-        createdDate: z.string().date(),
-        modifiedDate: z.optional(z.string().date()),
         ingredients: z.array(z.union([
             z.string(),
             z.object({
@@ -25,8 +23,6 @@ const ingredientsCollection = defineCollection({
         name: z.string(),
         plural: z.optional(z.string()),
         tags: z.array(z.string()),
-        createdDate: z.string().date(),
-        modifiedDate: z.optional(z.string().date()),
     }),
 })
 
@@ -36,8 +32,6 @@ const tagsCollection = defineCollection({
 	name: z.string(),
 	plural: z.optional(z.string()),
 	tags: z.array(z.string()),
-	createdDate: z.string().date(),
-	modifiedDate: z.optional(z.string().date()),
     })
 })
 
