@@ -100,5 +100,17 @@ export async function getTag(slug: string) {
     return {
 	...tag.data,
 	slug,
+	async getTags() {
+            const tags = await findSupertags(this.slug);
+            tags.delete(this.slug)
+            return tags;
+	}
     }
+}
+
+export async function getTags() {
+    const tags = [];
+    for (const tag of await getCollection('tags'))
+        tags.push(await getTag(tag.slug));
+    return tags;
 }

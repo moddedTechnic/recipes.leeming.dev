@@ -3,9 +3,10 @@ import {getCollection} from 'astro:content'
 
 import Layout from '../../layouts/Layout.astro'
 import Card from '../../components/Card.astro'
+import {getTags} from '../../utils/collections'
 
-const posts = await getCollection('tags')
-posts.sort((a, b) => a.data.name.localeCompare(b.data.name))
+const posts = await getTags()
+posts.sort((a, b) => a.name.localeCompare(b.name))
 ---
 
 <Layout title="Tags">
@@ -13,10 +14,10 @@ posts.sort((a, b) => a.data.name.localeCompare(b.data.name))
         <h1>Tags</h1>
         <ul>
             {
-                posts.map((p) => {
+                posts.map(async (p) => {
                     return (
-                            <Card baseURL="/t" slug={p.slug} title={p.data.name}
-                                  tags={p.data.tags}/>
+                            <Card baseURL="/t" slug={p.slug} title={p.name}
+                                  tags={Array.from(await p.getTags())}/>
                     )
                 })
             }
